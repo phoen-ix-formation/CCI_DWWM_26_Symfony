@@ -1,0 +1,32 @@
+footer.footer-fixed {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+h1 {
+    color: var(--bs-danger);
+    text-align: center;
+}
+
+.nav-dot {
+    display: none;
+}
+
+@media screen and (min-width: 760px) {
+    .nav-dot {
+        display: block;
+        width: 2.2rem;
+        height: 2.2rem;
+        background-color: #000000;
+        position: absolute;
+        bottom: -50%;
+        border-radius: 50%;
+        border: 3px #ffffff solid;
+    }
+
+    nav.navbar .container {
+        position: relative;
+        justify-content: center;
+    }
+}
