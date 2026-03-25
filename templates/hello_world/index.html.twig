@@ -7,7 +7,14 @@
 <div class="example-wrapper">
 
     <h1>Hello {{ controller_name }}! ✅</h1>
+
+    <twig:BootstrapButton class="mb-2"
+        text="Bootstrap est disponible!"
+        type="success" link="#" />
+
+    <twig:BootstrapButton 
+        text="Hello World!"
+        type="warning" link="#" />
     
-    <a href="" class="btn btn-success">Bootstrap est disponible!</a>
 </div>
 {% endblock %}
