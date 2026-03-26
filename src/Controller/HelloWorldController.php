@@ -11,8 +11,15 @@ final class HelloWorldController extends AbstractController
     #[Route('/hello/world', name: 'app_hello_world')]
     public function index(): Response
     {
+        $arrPokemons = [
+            ['number' => 1, 'name' => 'Bulbizarre', 'type' => 'Plante'],
+            ['number' => 4, 'name' => 'Salamèche',  'type' => 'Feu'],
+            ['number' => 7, 'name' => 'Carapuce',   'type' => 'Eau'],
+        ];
+
         return $this->render('hello_world/index.html.twig', [
-            'controller_name' => 'HelloWorldController',
+            'controller_name'   => 'HelloWorldController',
+            'pokemonList'       => $arrPokemons
         ]);
     }
 }
