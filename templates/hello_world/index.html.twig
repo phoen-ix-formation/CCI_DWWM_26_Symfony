@@ -30,6 +30,30 @@
     {% endfor %}
     </ul>
 
+    <h2>Liste des Pokémon (card)</h2>
+    <div class="row mt-2">
+    {% for pokemon in pokemonList %}
+
+        <twig:BootstrapCard 
+            class="col-3"
+            title="{{ pokemon.name }}"
+            img="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.number }}.png"
+            link="#"
+            label="Détail"
+        >
+        
+            <span class="badge text-bg-info rounded-pill">#{{ pokemon.number|fill_number('0', 3) }}</span>
+            <span class="badge text-bg-primary rounded-pill">{{ pokemon.type }}</span>
+
+        </twig:BootstrapCard>
+
+    {% endfor %}
+    </div>
+
+
+
+
+
     <twig:BootstrapButton class="my-2"
         text="Bootstrap est disponible!"
         type="success" link="#" />
