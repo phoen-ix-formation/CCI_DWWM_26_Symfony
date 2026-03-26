@@ -6,7 +6,9 @@
 
             {% block content %}{% endblock %}
 
-            <a href="{{ this.link }}" class="btn btn-primary">{{ this.label }}</a>
+            <twig:BootstrapButton class="mb-2"
+                text="{{ this.label }}"
+                type="primary" link="{{ this.link }}" />
         </div>
     </div>
 </div>

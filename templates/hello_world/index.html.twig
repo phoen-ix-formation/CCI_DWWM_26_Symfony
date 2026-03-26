@@ -16,17 +16,20 @@
         text="Hello World!"
         type="warning" link="#" outlined />
 
+    <div class="row mt-2">
+        <div class="col-3"> 
+            <twig:BootstrapCard
+                title="Mon image #1"
+                img="https://picsum.photos/200"
+                link="/images/1"
+                label="Cliquez ici"
+            >
+                <p>Ceci est le texte de mon contenu</p>
+                <p>En format <strong>HTML</strong></p>
 
-    <twig:BootstrapCard
-        title="Mon image #1"
-        img="https://picsum.photos/200"
-        link="/images/1"
-        label="Cliquez ici"
-    >
-        <p>Ceci est le texte de mon contenu</p>
-        <p>En format <strong>HTML</strong></p>
-        
-    </twig:BootstrapCard>
+            </twig:BootstrapCard>
+        </div>
+    </div>
     
 </div>
 {% endblock %}
