@@ -12,6 +12,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFilter('custom_capitalize', [AppExtensionRuntime::class, 'customCapitalize']),
+            new TwigFilter('fill_number', [AppExtensionRuntime::class, 'fillNumber']),
         ];
     }
 }

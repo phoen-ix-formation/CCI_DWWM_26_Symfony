@@ -52,4 +52,11 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
         return $value;
         */
     }
+
+    public function fillNumber($value, string $character, int $length): string
+    {
+        $strFormat = '%' . $character . $length . 'd';  //< Construit le format dynamiquement, 
+                                                        // par exemple %03d pour 3 digit complété avec des 0
+        return sprintf($strFormat, $value);
+    }
 }

@@ -23,6 +23,10 @@
             <span class="badge text-bg-primary rounded-pill">#{{ pokemon.number|fill_number('0', 3) }}</span>
             {{ pokemon.name }}
         </li>
+    {% else %}
+        <li class="list-group-item list-group-item-warning">
+            Aucun Pokémon n'a été trouvé
+        </li>
     {% endfor %}
     </ul>
 
