@@ -1,0 +1,12 @@
+<div{{ attributes }}>
+    <div class="card">
+        <img src="{{ this.img }}" class="card-img-top" alt="Image">
+        <div class="card-body">
+            <h5 class="card-title">{{ this.title }}</h5>
+
+            {% block content %}{% endblock %}
+
+            <a href="{{ this.link }}" class="btn btn-primary">{{ this.label }}</a>
+        </div>
+    </div>
+</div>
