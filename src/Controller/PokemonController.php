@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Pokemon;
+use App\Repository\PokemonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,10 +13,12 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PokemonController extends AbstractController
 {
     #[Route('/pokemon', name: 'app_pokemon')]
-    public function index(): Response
+    public function index(PokemonRepository $pokemonRepository): Response
     {
+        $arrPokemon = $pokemonRepository->findAll();
+
         return $this->render('pokemon/index.html.twig', [
-            'controller_name' => 'PokemonController',
+            'pokemonList' => $arrPokemon,
         ]);
     }
 
@@ -64,10 +67,23 @@ final class PokemonController extends AbstractController
     }
 
     #[Route('/pokemon/{id<\d+>}', name: 'app_pokemon_show')]
-    public function show(int $id): Response
+    public function show(Pokemon $pokemon): Response
     {
+        /*
+        $objPokemon = $pokemonRepository->find($id);
+
+        if(!$objPokemon) {
+            throw $this->createNotFoundException(
+                "Le Pokémon n'existe pas"
+            );
+        }
+        */
+
         return $this->render('pokemon/show.html.twig', [
-            'pokemon_id'    => $id
+            /*'pokemon_id'    => $id,
+            'pokemon'       => $objPokemon
+            */
+            'pokemon'       => $pokemon
         ]);
     }
 }
