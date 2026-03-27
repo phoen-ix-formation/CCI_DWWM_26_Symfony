@@ -24,19 +24,33 @@ final class PokemonController extends AbstractController
     {
         if($request->isMethod('POST')) {
 
+            $onError = false; //< Flag qui vérifie si tout est OK ou pas
+
             $strPokemonName     = $request->request->get('name');
             $intPokemonNumber   = $request->request->get('number');
 
-            $objPokemon = new Pokemon();
+            if($intPokemonNumber <= 0) {
 
-            $objPokemon->setName($strPokemonName)
-                    ->setNumber($intPokemonNumber);
+                $onError = true;
 
-            $entityManager->persist($objPokemon);
+                // Je stocke un message "flash" dans la session
+                // Attention, flash nécessite une redirection propre '$this->redirectTo...'
+                // $this->addFlash('danger', "Le numéro dans le Pokédex doit être supérieur à zéro");
+            }
 
-            $entityManager->flush();
+            if(!$onError) {
 
-            dd($objPokemon);
+                $objPokemon = new Pokemon();
+
+                $objPokemon->setName($strPokemonName)
+                        ->setNumber($intPokemonNumber);
+
+                $entityManager->persist($objPokemon);
+
+                $entityManager->flush();
+
+                dd($objPokemon);
+            }
         }
 
         return $this->render('pokemon/create.html.twig', [

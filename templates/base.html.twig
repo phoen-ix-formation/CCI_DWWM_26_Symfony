@@ -14,7 +14,11 @@
     <body>
         {% include '_partials/header.html.twig' %}
 
+
         <main class="container">
+        
+        {% include '_partials/flashes.html.twig' %}
+
         {% block body %}{% endblock %}
         </main>
         
