@@ -49,12 +49,25 @@ final class PokemonController extends AbstractController
 
                 $entityManager->flush();
 
-                dd($objPokemon);
+                $this->addFlash('success', "Le Pokémon a été créé avec succès !");
+
+                // On redirige vers la page de détails du pokémon qui vient d'être enregistré en base
+                return $this->redirectToRoute('app_pokemon_show', [
+                    'id' => $objPokemon->getId()
+                ]);
             }
         }
 
         return $this->render('pokemon/create.html.twig', [
             
+        ]);
+    }
+
+    #[Route('/pokemon/{id<\d+>}', name: 'app_pokemon_show')]
+    public function show(int $id): Response
+    {
+        return $this->render('pokemon/show.html.twig', [
+            'pokemon_id'    => $id
         ]);
     }
 }
