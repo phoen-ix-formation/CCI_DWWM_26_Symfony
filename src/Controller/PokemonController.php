@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Pokemon;
+use App\Form\PokemonCreateFormType;
 use App\Repository\PokemonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +26,7 @@ final class PokemonController extends AbstractController
     #[Route('/pokemon/create', name: 'app_pokemon_create')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        /*
         if($request->isMethod('POST')) {
 
             $onError = false; //< Flag qui vérifie si tout est OK ou pas
@@ -60,9 +62,14 @@ final class PokemonController extends AbstractController
                 ]);
             }
         }
+        */
 
+        $objNewPokemon = new Pokemon();
+
+        $createForm = $this->createForm(PokemonCreateFormType::class, $objNewPokemon);
+        
         return $this->render('pokemon/create.html.twig', [
-            
+            'createForm'    => $createForm
         ]);
     }
 
