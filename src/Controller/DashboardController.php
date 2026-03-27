@@ -12,7 +12,7 @@ final class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(Request $request): Response
     {
-        //dd($request->query->get('last', 10));
+        //dd($request->query->get('last', 10)); -> var_dump(..); die;
 
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
