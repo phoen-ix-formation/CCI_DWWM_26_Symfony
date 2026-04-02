@@ -4,25 +4,30 @@
 
 {% block body %}
 
-{{ form_start(createForm) }}
-    <div>
-        {{ form_errors(createForm) }}
+<div class="container-sm">
+
+    <div class="card mb-5 pt-2">
+        {{ form_start(createForm) }}
+
+            <div>
+                {{ form_errors(createForm) }}
+            </div>
+
+            <div class="row align-items-end justify-content-center">
+                <div class="col-4">
+                    {{ form_row(createForm.name) }}
+                </div>
+                <div class="col-1">
+                    {{ form_row(createForm.color) }}
+                </div>
+                <div class="col-1">
+                    {{ form_row(createForm.submit) }}
+                </div>
+            </div>
+
+        {{ form_end(createForm) }}
     </div>
-
-    <div class="row">
-        <div class="col">
-            {{ form_row(createForm.name) }}
-        </div>
-        <div class="col">
-            {{ form_row(createForm.color) }}
-        </div>
-        <div class="col">
-            {{ form_row(createForm.submit) }}
-        </div>
-    </div>
-
-{{ form_end(createForm) }}
-
+</div>
 
 <div class="row g-4">
     {% for type in pokemonTypes %}
