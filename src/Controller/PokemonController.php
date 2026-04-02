@@ -49,7 +49,7 @@ final class PokemonController extends AbstractController
             ]);
         }
         
-        return $this->render('pokemon/create.html.twig', [
+        return $this->render('pokemon/form.html.twig', [
             'createForm'    => $createForm
         ]);
     }
@@ -89,7 +89,7 @@ final class PokemonController extends AbstractController
             ]);
         }
 
-        return $this->render('pokemon/create.html.twig', [
+        return $this->render('pokemon/form.html.twig', [
             'createForm'    => $updateForm
         ]);
     }
