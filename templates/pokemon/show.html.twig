@@ -8,11 +8,17 @@
 
     <div class="col-12 col-md-6 col-lg-5">
 
-        <div class="card shadow-sm">
+        <twig:BootstrapCard 
+            title="{{ pokemon.name }}"
+            img="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.number }}.png"
+            link="#"
+            label="Détail"
+        >
+        
+            <span class="badge text-bg-info rounded-pill">#{{ pokemon.number|fill_number('0', 3) }}</span>
+            <span class="badge text-bg-primary rounded-pill">{# pokemon.type #}</span>
 
-            {{ dump(pokemon) }}
-
-        </div>
+        </twig:BootstrapCard>
 
     </div>
 
