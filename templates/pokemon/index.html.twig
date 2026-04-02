@@ -11,8 +11,10 @@
             class="col-3"
             title="{{ pokemon.name }}"
             img="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.number }}.png"
-            link="{{ path('app_pokemon_show', { id: pokemon.id }) }}"
-            label="Détail"
+            actions="{{ [
+                { label: 'Détails', link: path('app_pokemon_show', { id: pokemon.id }), type: 'info' },
+                { label: 'Modifier', link: path('app_pokemon_update', { id: pokemon.id }), type: 'warning' }
+            ] }}"
         >
         
             <span class="badge text-bg-info rounded-pill">#{{ pokemon.number|fill_number('0', 3) }}</span>

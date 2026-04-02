@@ -9,8 +9,7 @@ final class BootstrapCard
 {
     private string $_strTitle;
     private string $_strImg;
-    private string $_strLink;
-    private string $_strLabel;
+    private array $_arrActions;
 
     /**
      * Monte le composant dans le DOM
@@ -20,12 +19,11 @@ final class BootstrapCard
      * @param string $link l'URL ou l'URI du target du lien du bouton
      * @param string $label Texte affiché dans le bouton
      */
-    public function mount(string $title, string $img, string $link, string $label): void
+    public function mount(string $title, string $img, array $actions = []): void
     {
         $this->_strTitle    = $title;
         $this->_strImg      = $img;
-        $this->_strLink     = $link;
-        $this->_strLabel    = $label;
+        $this->_arrActions  = $actions;
     }
 
     // GETTERS ================================================================
@@ -40,15 +38,8 @@ final class BootstrapCard
         return $this->_strImg;
     }
 
-    public function getLink(): string
+    public function getActions(): array
     {
-        return $this->_strLink;
+        return $this->_arrActions;
     }
-
-    public function getLabel(): string
-    {
-        return $this->_strLabel;
-    }
-
-
 }
