@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\PokemonType;
 use App\Form\PokemonTypeCreateFormType;
+use App\Repository\PokemonTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,9 +14,10 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PokemonTypeController extends AbstractController
 {
     #[Route('/type', name: 'app_type')]
-    public function index(): Response
+    public function index(PokemonTypeRepository $pokemonTypeRepository): Response
     {
-        $objNewType = new PokemonType();
+        $arrPokemonTypes = $pokemonTypeRepository->findAll();
+        $objNewType      = new PokemonType();
 
         // On modifie l'action par défaut (URL vers laquelle les données sont envoyées) du formulaire
         // $this->generateUrl permet de créer une URL (string) à partir du nom de la route
@@ -24,7 +26,8 @@ final class PokemonTypeController extends AbstractController
         ]);
 
         return $this->render('pokemon_type/index.html.twig', [
-            'createForm' => $createForm
+            'createForm'    => $createForm,
+            'pokemonTypes'  => $arrPokemonTypes
         ]);
     }
 

@@ -4,6 +4,37 @@
 
 {% block body %}
 
-{{ form(createForm) }}
+{{ form_start(createForm) }}
+    <div>
+        {{ form_errors(createForm) }}
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(createForm.name) }}
+        </div>
+        <div class="col">
+            {{ form_row(createForm.color) }}
+        </div>
+        <div class="col">
+            {{ form_row(createForm.submit) }}
+        </div>
+    </div>
+
+{{ form_end(createForm) }}
+
+
+<div class="row g-4">
+    {% for type in pokemonTypes %}
+    <div class="col-2">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ type.name }}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">{{ type.color }}</h6>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
 {% endblock %}
