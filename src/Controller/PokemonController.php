@@ -10,14 +10,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Psr\Log\LoggerInterface;
+
 
 #[Route('/pokemon', name: 'app_pokemon_')]
 final class PokemonController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(PokemonRepository $pokemonRepository): Response
+    public function index(PokemonRepository $pokemonRepository, LoggerInterface $logger): Response
     {
         $arrPokemon = $pokemonRepository->findAll();
+
+        $logger->info("Affichage de la liste des Pokémons…");
 
         return $this->render('pokemon/index.html.twig', [
             'pokemonList' => $arrPokemon,
