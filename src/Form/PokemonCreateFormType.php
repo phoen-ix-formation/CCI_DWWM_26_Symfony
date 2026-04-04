@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Pokemon;
+use App\Entity\PokemonType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -20,7 +22,15 @@ class PokemonCreateFormType extends AbstractType
             ])
 
             ->add('number', NumberType::class, [
-                'label' => 'Numéro du Pokédex nationnal'
+                'label'     => 'Numéro du Pokédex nationnal',
+                'required'  => false
+            ])
+
+            ->add('types', EntityType::class, [
+                'class'         => PokemonType::class,
+                'choice_label'  => 'name',
+                'multiple'      => true,
+                'label'         => 'Types(s)'
             ])
 
             ->add('submit', SubmitType::class, [
