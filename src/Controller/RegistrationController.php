@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,6 +37,9 @@ class RegistrationController extends AbstractController
 
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+
+            // set the registration datetime
+            $user->setRegisteredAt(new DateTimeImmutable('now'));
 
             $entityManager->persist($user);
             $entityManager->flush();

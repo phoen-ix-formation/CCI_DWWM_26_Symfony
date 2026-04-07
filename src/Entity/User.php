@@ -47,7 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'usr_registered_at')]
     private ?\DateTimeImmutable $registeredAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: 'usr_is_verified')]
     private bool $isVerified = false;
 
     public function getId(): ?int
