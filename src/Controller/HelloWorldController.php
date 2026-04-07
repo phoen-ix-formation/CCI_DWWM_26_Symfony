@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class HelloWorldController extends AbstractController
@@ -22,4 +24,20 @@ final class HelloWorldController extends AbstractController
             'pokemonList'       => $arrPokemons
         ]);
     }
+
+    #[Route('/mail', name: 'app_test_mail')]
+    public function sendMail(MailerInterface $mailer): Response
+    { 
+        $email = (new Email())
+            ->from('hello@example.com')
+            ->to('test@hotmail.fr')
+            ->subject('Objet du mail')
+            ->text('Sending emails is fun again!') // Format TEXT
+            ->html('<p>See Twig integration for better HTML integration!</p>'); // Format HTML
+
+        $mailer->send($email);
+
+        return $this->redirectToRoute('app_hello_world');
+    }
+
 }
