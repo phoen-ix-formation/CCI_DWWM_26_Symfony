@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+
+<h1>Gestion des utilisateurs</h1>
+
+<twig:BootstrapButton type="primary" link="#" text="Créer un utilisateur" />
+
+<table class="table table-striped mt-5">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Adresse e-mail</th>
+            <th scope="col">Rôles</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in userList %}
+        <tr>
+            <th scope="row">{{ user.id }}</th>
+            <th>{{ user.lastname }}</th>
+            <th>{{ user.firstname }}</th>
+            <th>{{ user.email }}</th>
+            <th>
+
+            </th>
+            <th>
+            
+            </th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
