@@ -9,8 +9,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class PokemonVoter extends Voter
 {
-    public const EDIT = 'POST_EDIT';
-    public const VIEW = 'POST_VIEW';
+    public const EDIT = 'POKEMON_EDIT';
+    public const VIEW = 'POKEMON_VIEW';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
@@ -36,11 +36,15 @@ final class PokemonVoter extends Voter
             case self::EDIT:
                 // logic to determine if the user can EDIT
                 // return true or false
+
+                // Si l'utilisateur est le créateur du Pokémon, alors retourne "vrai"
+                if($subject->getCreatedby() === $user) return true;
                 break;
 
             case self::VIEW:
                 // logic to determine if the user can VIEW
                 // return true or false
+                return true; //< Tout le monde peut voir les fiches des Pokémon
                 break;
         }
 

@@ -40,7 +40,10 @@ class Pokemon
     private Collection $types;
 
     #[ORM\ManyToOne(inversedBy: 'pokemons', targetEntity: User::class)]
-    #[ORM\JoinColumn(name: 'pkm_created_by', referencedColumnName: 'usr_id', nullable: false)]
+    #[ORM\JoinColumn(name: 'pkm_created_by', referencedColumnName: 'usr_id', nullable: false)]  //< 1ère étape, il faut nullable:true
+                                                                                                //< Ensuite faire la migration
+                                                                                                //< Modifier les valeurs dans la table pokemons (pkm_created_by)
+                                                                                                //< Passer le champ en nullable:false et refaire les migrations
     private ?User $createdBy = null;
 
     public function __construct()
