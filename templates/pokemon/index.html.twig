@@ -4,13 +4,15 @@
 
 {% block body %}
 
+    {% if currentPage > 1 %}
     <twig:BootstrapButton class="d-inline-block"
         text="Précédent"
-        type="info" link="{{ path('app_pokemon_index') }}" />
+        type="info" link="{{ path('app_pokemon_index', { page: currentPage - 1 }) }}" />
+    {% endif %}
 
     <twig:BootstrapButton class="d-inline-block"
         text="Suivant"
-        type="info" link="{{ path('app_pokemon_index') }}" />
+        type="info" link="{{ path('app_pokemon_index', { page: currentPage + 1 }) }}" />
 
     <div class="row mt-2">
     {% for pokemon in pokemonList %}

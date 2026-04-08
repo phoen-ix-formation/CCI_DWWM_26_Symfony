@@ -23,8 +23,11 @@ final class PokemonController extends AbstractController
 
         $arrPokemon = $pokemonRepository->findPagination(4, $intPage);
 
+        dd($arrPokemon);
+
         return $this->render('pokemon/index.html.twig', [
-            'pokemonList' => $arrPokemon,
+            'pokemonList'   => $arrPokemon,
+            'currentPage'   => $intPage,
         ]);
     }
 
