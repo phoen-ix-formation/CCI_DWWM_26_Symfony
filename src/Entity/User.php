@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -49,6 +51,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(name: 'usr_is_verified')]
     private bool $isVerified = false;
+
+    /**
+     * @var Collection<int, Pokemon>
+     */
+    #[ORM\OneToMany(targetEntity: Pokemon::class, mappedBy: 'createdBy')]
+    private Collection $pokemons;
+
+    public function __construct()
+    {
+        $this->pokemons = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -181,6 +194,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pokemon>
+     */
+    public function getPokemons(): Collection
+    {
+        return $this->pokemons;
+    }
+
+    public function addPokemon(Pokemon $pokemon): static
+    {
+        if (!$this->pokemons->contains($pokemon)) {
+            $this->pokemons->add($pokemon);
+            $pokemon->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removePokemon(Pokemon $pokemon): static
+    {
+        if ($this->pokemons->removeElement($pokemon)) {
+            // set the owning side to null (unless already changed)
+            if ($pokemon->getCreatedBy() === $this) {
+                $pokemon->setCreatedBy(null);
+            }
+        }
 
         return $this;
     }
