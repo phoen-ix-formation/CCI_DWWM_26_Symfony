@@ -40,16 +40,16 @@ class UserInfoFormType extends AbstractType
                 'type'              => PasswordType::class,
 
                 'invalid_message'   => 'Les champs doivent être identiques', 
-                'required'          => true,
+                'required'          => false, //< Facultatif par défaut
 
                 'first_options'     => ['label' => 'Mot de passe'],
                 'second_options'    => ['label' => 'Confirmer le mot de passe'],
 
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
-                    new NotBlank(
+                    /*new NotBlank(
                         message: 'Please enter a password',
-                    ),
+                    ),*/ //< Facultatif par défaut
                     new Length(
                         min: 12,
                         minMessage: 'Your password should be at least {{ limit }} characters',

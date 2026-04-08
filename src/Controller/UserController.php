@@ -39,6 +39,12 @@ final class UserController extends AbstractController
             /** @var string $plainPassword */
             $plainPassword = $userForm->get('plainPassword')->getData();
 
+            // Dans le cas où le mot de passe n'est pas renseigné
+            if(!$plainPassword) {
+
+                $plainPassword = "default_password";
+            }
+
             // encode the plain password
             $objUser->setPassword($userPasswordHasher->hashPassword($objUser, $plainPassword));
 
@@ -72,7 +78,8 @@ final class UserController extends AbstractController
             /** @var string $plainPassword */
             $plainPassword = $userForm->get('plainPassword')->getData();
 
-            if($plainPassword !== "") {
+            // Dans le cas où le mot de passe est renseigné
+            if($plainPassword) {
 
                 // encode the plain password
                 $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
