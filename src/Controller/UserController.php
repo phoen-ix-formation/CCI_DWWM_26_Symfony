@@ -89,4 +89,43 @@ final class UserController extends AbstractController
             'userForm' => $userForm
         ]);
     }
+
+    #[Route('/user/{id<\d+>}/roles', name: 'app_user_roles')]
+    public function updateRoles(User $user, Request $request,  
+        EntityManagerInterface $entityManager): Response
+    {
+        $strFormError = "";
+
+        if($request->isMethod('POST')) {
+
+            // Récupération du jeton CSRF dans la requête
+            $submittedToken = $request->getPayload()->get('_csrf_token');
+
+            // Vérifie si le jeton est valide : attention au nom qui doit être le mêmee que dans le dans le gabarit TWIG
+            if ($this->isCsrfTokenValid('user_role', $submittedToken)) {
+
+                $arrRoles = [];
+
+                // Vérifie si la case du rôle prof est coché
+                if($request->request->get('user-role-prof')) {
+                    $arrRoles[] = 'ROLE_PROF';
+                }
+
+                // Met à jour les rôles de l'utilisateur
+                $user->setRoles($arrRoles);
+                $entityManager->flush();
+
+                $this->addFlash('success', "Les rôles de l'utilisateur ont été modifiés");
+
+                return $this->redirectToRoute('app_user');
+            }
+
+            $strFormError = "Le jeton de sécurité n'est pas valide. Réessayez ou actualisez la page";
+        }
+
+        return $this->render('user/roles.html.twig', [
+            'user'      => $user,
+            'formError' => $strFormError
+        ]);
+    }
 }

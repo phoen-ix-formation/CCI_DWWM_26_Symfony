@@ -27,10 +27,13 @@
             <th>{{ user.firstname }}</th>
             <th>{{ user.email }}</th>
             <th>
-
+                {% for role in user.roles %}
+                    <span class="badge text-bg-info rounded-pill">{{ role }}</span>
+                {% endfor %}
             </th>
             <th>
                 <twig:BootstrapButton type="warning" link="{{ path('app_user_update', { id: user.id }) }}" text="Modifier" />
+                <twig:BootstrapButton type="primary" link="{{ path('app_user_roles', { id: user.id }) }}" text="Affecter des rôles" />
             </th>
         </tr>
         {% endfor %}
