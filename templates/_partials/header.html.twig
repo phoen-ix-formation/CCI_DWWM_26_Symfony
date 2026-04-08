@@ -18,10 +18,14 @@
                     <li class="nav-item">
                         <a href="{{ path('app_pokemon_create') }}" class="nav-link">+ Ajouter un Pokémon</a>
                     </li>
+
+                    {# Vérification si rôle PROF #}
+                    {% if is_granted('ROLE_PROF') %}
                     <li class="nav-item">
                         <a href="{{ path('app_type') }}" class="nav-link">Types</a>
                     </li>
-                    
+                    {% endif %}
+
                     <li class="nav-item">
                         <a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a>
                     </li>

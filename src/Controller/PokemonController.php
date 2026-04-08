@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/pokemon', name: 'app_pokemon_')]
 final class PokemonController extends AbstractController
@@ -25,6 +26,7 @@ final class PokemonController extends AbstractController
     }
 
     #[Route('/create', name: 'create')]
+    #[IsGranted('ROLE_USER')] //< Bloque la route, si pas le rôle ROLE_USER
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $objNewPokemon = new Pokemon();
@@ -66,6 +68,7 @@ final class PokemonController extends AbstractController
     }
 
     #[Route('/{id<\d+>}/update', name: 'update')] //< URL : /pokemon/1/update
+    #[IsGranted('ROLE_USER')] //< Bloque la route, si pas le rôle ROLE_USER
     public function update(Pokemon $pokemon, Request $request, EntityManagerInterface $entityManager): Response
     {
         // On construit le formulaire à partir des données de l'entité récupérée
