@@ -17,9 +17,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class PokemonController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(PokemonRepository $pokemonRepository): Response
+    public function index(PokemonRepository $pokemonRepository, Request $request): Response
     {
-        $arrPokemon = $pokemonRepository->findAll();
+        $intPage = $request->query->get('page', 1);
+
+        $arrPokemon = $pokemonRepository->findPagination(4, $intPage);
 
         return $this->render('pokemon/index.html.twig', [
             'pokemonList' => $arrPokemon,

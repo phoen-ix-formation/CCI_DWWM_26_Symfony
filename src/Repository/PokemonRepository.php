@@ -16,6 +16,21 @@ class PokemonRepository extends ServiceEntityRepository
         parent::__construct($registry, Pokemon::class);
     }
 
+    public function findPagination(int $number, int $page = 1): array
+    {
+        // Création du QueryBuilder, SELECT * FROM pokemons as p...
+        $queryBuilder = $this->createQueryBuilder('p');
+
+        // Décalage des résultats (OFFSET) - page 1 => 0, page 2 => 4, page 3 => 8, page 4 => 12
+        $queryBuilder->setFirstResult($number * $page - $number);
+
+        // TOP / LIMIT à $number
+        $queryBuilder->setMaxResults($number);
+
+        // Exécution de la requête sur la base de données
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     //    /**
     //     * @return Pokemon[] Returns an array of Pokemon objects
     //     */

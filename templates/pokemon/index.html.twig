@@ -4,6 +4,14 @@
 
 {% block body %}
 
+    <twig:BootstrapButton class="d-inline-block"
+        text="Précédent"
+        type="info" link="{{ path('app_pokemon_index') }}" />
+
+    <twig:BootstrapButton class="d-inline-block"
+        text="Suivant"
+        type="info" link="{{ path('app_pokemon_index') }}" />
+
     <div class="row mt-2">
     {% for pokemon in pokemonList %}
 
