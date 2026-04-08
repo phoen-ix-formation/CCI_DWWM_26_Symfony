@@ -2,6 +2,7 @@
 
 namespace App\Story;
 
+use App\Factory\PokemonFactory;
 use App\Factory\PokemonTypeFactory;
 use App\Factory\UserFactory;
 use Zenstruck\Foundry\Attribute\AsFixture;
@@ -49,6 +50,23 @@ final class AppStory extends Story
             ['name' => "Vol",      'color' => "#82BAEF"],
         ]);
 
-        
+        $objTypePlante = PokemonTypeFactory::find(['name' => 'Plante']);
+        $objTypePoison = PokemonTypeFactory::find(['name' => 'Poison']);
+        $objTypeFeu = PokemonTypeFactory::find(['name' => 'Feu']);
+        $objTypeVol = PokemonTypeFactory::find(['name' => 'Vol']);
+        $objTypeInsect = PokemonTypeFactory::find(['name' => 'Insecte']);
+
+        // Générer quelques Pokémon ici..
+        PokemonFactory::createSequence([
+            ['number'    => 1,      'name' => "Bulbizarre",         'types' => [$objTypePlante]],
+            ['number'    => 2,      'name' => "Herbizarre",         'types' => [$objTypePlante, $objTypePoison]],
+            ['number'    => 3,      'name' => "Florizarre",         'types' => [$objTypePlante, $objTypePoison]],
+            ['number'    => 4,      'name' => "Salamèche",          'types' => [$objTypeFeu]],
+            ['number'    => 5,      'name' => "Reptincel",          'types' => [$objTypeFeu]],
+            ['number'    => 6,      'name' => "Dracaufeu",          'types' => [$objTypeFeu, $objTypeVol]],
+            ['number'    => 10,     'name' => "Chenipan",           'types' => [$objTypeInsect]],
+            ['number'    => 11,     'name' => "Chrysacier",         'types' => [$objTypeInsect]],
+            ['number'    => 12,     'name' => "Papilusion",         'types' => [$objTypeInsect, $objTypeVol]],
+        ]);
     }
 }
