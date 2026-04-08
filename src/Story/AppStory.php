@@ -2,6 +2,7 @@
 
 namespace App\Story;
 
+use App\Factory\PokemonTypeFactory;
 use App\Factory\UserFactory;
 use Zenstruck\Foundry\Attribute\AsFixture;
 use Zenstruck\Foundry\Story;
@@ -24,6 +25,12 @@ final class AppStory extends Story
             'roles'     => ['ROLE_PROF'],
             'lastname'  => 'Doe',
             'firstname' => 'John'
+        ]);
+
+        // Génère tous les types des Pokémons
+        PokemonTypeFactory::createSequence([
+            ['name' => "Normal",    'color' => "#FFFFFF"],
+            ['name' => "Feu",       'color' => "#FF0000"]
         ]);
 
         
