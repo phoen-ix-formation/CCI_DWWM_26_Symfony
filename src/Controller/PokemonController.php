@@ -69,6 +69,7 @@ final class PokemonController extends AbstractController
 
     #[Route('/{id<\d+>}/update', name: 'update')] //< URL : /pokemon/1/update
     #[IsGranted('ROLE_USER')] //< Bloque la route, si pas le rôle ROLE_USER
+    #[IsGranted('POKEMON_EDIT', subject: 'pokemon', message: "Droit insuffisant pour la modification")]
     public function update(Pokemon $pokemon, Request $request, EntityManagerInterface $entityManager): Response
     {
         // On construit le formulaire à partir des données de l'entité récupérée

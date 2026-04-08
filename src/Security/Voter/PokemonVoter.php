@@ -9,14 +9,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class PokemonVoter extends Voter
 {
-    public const EDIT = 'POKEMON_EDIT';
-    public const VIEW = 'POKEMON_VIEW';
+    public const EDIT   = 'POKEMON_EDIT';
+    public const VIEW   = 'POKEMON_VIEW';
+    public const DELETE = 'POKEMON_DELETE';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::EDIT, self::VIEW])
+        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
             && $subject instanceof \App\Entity\Pokemon;
     }
 
@@ -38,7 +39,8 @@ final class PokemonVoter extends Voter
                 // return true or false
 
                 // Si l'utilisateur est le créateur du Pokémon, alors retourne "vrai"
-                if($subject->getCreatedby() === $user) return true;
+                // if($subject->getCreatedby() === $user) return true;
+                return $subject->getCreatedby() === $user;
                 break;
 
             case self::VIEW:
