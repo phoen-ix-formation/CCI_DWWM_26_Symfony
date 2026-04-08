@@ -22,7 +22,8 @@ class PokemonCreateFormType extends AbstractType
             ])
 
             ->add('number', NumberType::class, [
-                'label' => 'Numéro du Pokédex nationnal'
+                'label'     => 'Numéro du Pokédex nationnal',
+                'required'  => false,
             ])
 
             ->add('types', EntityType::class, [

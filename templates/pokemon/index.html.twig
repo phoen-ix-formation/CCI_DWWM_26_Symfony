@@ -11,10 +11,6 @@
             class="col-3"
             title="{{ pokemon.name }}"
             img="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.number }}.png"
-            actions="{{ [
-                { label: 'Détails', link: path('app_pokemon_show', { id: pokemon.id }), type: 'info' },
-                { label: 'Modifier', link: path('app_pokemon_update', { id: pokemon.id }), type: 'warning' }
-            ] }}"
         >
         
             <span class="badge text-bg-info rounded-pill">#{{ pokemon.number|fill_number('0', 3) }}</span>
@@ -26,6 +22,21 @@
                 {{ type.name }}
             </span>
             {% endfor %}
+
+            <div class="mt-2">
+
+                <twig:BootstrapButton class="d-inline-block"
+                    text="Détails"
+                    type="info" link="{{ path('app_pokemon_show', { id: pokemon.id }) }}" />
+
+                {# Si droit d'édition, on affiche le bouton #}
+                {% if is_granted('POKEMON_EDIT', pokemon) %}
+                <twig:BootstrapButton class="d-inline-block"
+                    text="Modifier"
+                    type="warning" link="{{ path('app_pokemon_update', { id: pokemon.id }) }}" />
+                {% endif %}
+                
+            </div>
 
         </twig:BootstrapCard>
 
