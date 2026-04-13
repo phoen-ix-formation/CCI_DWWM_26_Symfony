@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Pokemon;
 use App\Entity\PokemonType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -56,6 +57,15 @@ class PokemonRepository extends ServiceEntityRepository
         
         // Retourne les résultats
         return $queryBuilder->getQuery()->getResult();
+    }
+
+    /**
+     * Construire le QueryBuilder qui sera utilisé pour la pagination
+     */
+    public function createPaginationQuery(): QueryBuilder
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.number', 'ASC');
     }
 
     public function findPagination(int $number, int $page = 1): array
