@@ -8,11 +8,13 @@ use App\Form\PokemonCreateFormType;
 use App\Repository\PokemonRepository;
 use App\Repository\PokemonTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/pokemon', name: 'app_pokemon_')]
@@ -120,13 +122,22 @@ final class PokemonController extends AbstractController
     #[Route('/{id<\d+>}/delete', name: 'delete', methods: ['POST'])] //< URL : /pokemon/1/delete
     #[IsGranted('ROLE_USER')] //< Bloque la route, si pas le rôle ROLE_USER
     #[IsGranted('POKEMON_DELETE', subject: 'pokemon', message: "Droit insuffisant pour la suppression")]
+    #[IsCsrfTokenValid('delete-pokemon', '_csrf_token')] //< 1: nom du token, 2: nom de l'input
     public function delete(Pokemon $pokemon, EntityManagerInterface $entityManager, Request $request): Response
     {
-        // DELETE .... FROM .... WHERE...
-        $entityManager->remove($pokemon);
-        $entityManager->flush();
+        try {
+            // DELETE .... FROM .... WHERE...
+            $entityManager->remove($pokemon);
+            $entityManager->flush();
 
-        // Lorsque la suppresion est faite, on retourne à la liste
+            // Lorsque la suppresion est faite, on retourne à la liste
+            $this->addFlash('success', "Le pokémon a été supprimé");
+        }
+        catch(Exception $exc) {
+            
+            $this->addFlash('danger', "Une erreur est survenue. Réessayez");
+        }
+
         return $this->redirectToRoute('app_pokemon_index');
     }
 }
