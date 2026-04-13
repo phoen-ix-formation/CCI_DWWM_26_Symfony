@@ -37,19 +37,6 @@ final class PokemonController extends AbstractController
             'pagination'    => $pagination,
             'searchName'    => $strSearchName //< Renvoi à la vue pour l'afficher dans le champ
         ]);
-
-        /*
-        $intPage = $request->query->get('page', 1);
-
-        $arrPokemon = $pokemonRepository->findPagination(4, $intPage);
-
-        dd($arrPokemon);
-
-        return $this->render('pokemon/index.html.twig', [
-            'pokemonList'   => $arrPokemon,
-            'currentPage'   => $intPage,
-        ]);
-        */
     }
 
     #[Route('/create', name: 'create')]

@@ -68,7 +68,8 @@ class PokemonRepository extends ServiceEntityRepository
             ->orderBy('p.number', 'ASC');
 
         if($name) {
-            $queryBuilder->where('p.name LIKE :name')
+            // Utilisation de LOWER pour rendre la requête insensible à la case (et ça marche chez Kévin !)
+            $queryBuilder->where('LOWER(p.name) LIKE LOWER(:name)')
                 ->setParameter('name', '%' . $name . '%');
         }
 
