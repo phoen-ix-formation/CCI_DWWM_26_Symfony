@@ -35,6 +35,7 @@ final class PokemonVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::EDIT:
+            case self::DELETE:
                 // logic to determine if the user can EDIT
                 // return true or false
 

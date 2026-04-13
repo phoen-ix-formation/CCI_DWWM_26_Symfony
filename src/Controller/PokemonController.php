@@ -116,4 +116,17 @@ final class PokemonController extends AbstractController
             'createForm'    => $updateForm
         ]);
     }
+
+    #[Route('/{id<\d+>}/delete', name: 'delete', methods: ['POST'])] //< URL : /pokemon/1/delete
+    #[IsGranted('ROLE_USER')] //< Bloque la route, si pas le rôle ROLE_USER
+    #[IsGranted('POKEMON_DELETE', subject: 'pokemon', message: "Droit insuffisant pour la suppression")]
+    public function delete(Pokemon $pokemon, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        // DELETE .... FROM .... WHERE...
+        $entityManager->remove($pokemon);
+        $entityManager->flush();
+
+        // Lorsque la suppresion est faite, on retourne à la liste
+        return $this->redirectToRoute('app_pokemon_index');
+    }
 }

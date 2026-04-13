@@ -58,6 +58,13 @@
                     type="warning" link="{{ path('app_pokemon_update', { id: pokemon.id }) }}" />
                 {% endif %}
                 
+                {% if is_granted('POKEMON_DELETE', pokemon) %}
+                <form>
+                    <input type="hidden" name="" value="">
+                    <button class="btn btn-danger" type="submit">Supprimer</button>
+                </form>
+                {% endif %}
+                
             </div>
 
         </twig:BootstrapCard>
