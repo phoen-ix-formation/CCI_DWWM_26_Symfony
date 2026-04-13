@@ -2,20 +2,22 @@
 
 {% block title %}Liste des Pokémons{% endblock %}
 
+{% block stylesheets %}
+{{ knp_pagination_rel_links(pagination) }}
+{% endblock %}
+
 {% block body %}
 
-    {% if currentPage > 1 %}
-    <twig:BootstrapButton class="d-inline-block"
-        text="Précédent"
-        type="info" link="{{ path('app_pokemon_index', { page: currentPage - 1 }) }}" />
-    {% endif %}
-
-    <twig:BootstrapButton class="d-inline-block"
-        text="Suivant"
-        type="info" link="{{ path('app_pokemon_index', { page: currentPage + 1 }) }}" />
+    <div class="count">
+        {{ pagination.getTotalItemCount }}
+    </div>
+    
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 
     <div class="row mt-2">
-    {% for pokemon in pokemonList %}
+    {% for pokemon in pagination %}
 
         <twig:BootstrapCard 
             class="col-3"

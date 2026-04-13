@@ -8,6 +8,7 @@ use App\Form\PokemonCreateFormType;
 use App\Repository\PokemonRepository;
 use App\Repository\PokemonTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,53 +19,31 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class PokemonController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(PokemonRepository $pokemonRepository, PokemonTypeRepository $pokemonTypeRepository, Request $request): Response
+    public function index(PokemonRepository $pokemonRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        // $intPage = $request->query->get('page', 1);
+        // On utilise le repository pour construire la requête qui sera envoyée au paginator
+        $query = $pokemonRepository->createQueryBuilder('p');
 
-        // $arrPokemon = $pokemonRepository->findPagination(4, $intPage);
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /* page number */
+            4 /* limit per page */
+        );
 
-        // dd($arrPokemon);
-
-        /* 
-
-        $arrPokemonsAll     = $pokemonRepository->findAll();                         //< SELECT * from pokemons;
-
-        $objPokemonId1      = $pokemonRepository->find(1);                           //< SELECT * from pokemons WHERE pkm_id = 1;
-
-        $objPokemonPikachu  = $pokemonRepository->findOneBy(['name' => 'Pikachu']);  //< SELECT * from pokemons WHERE name = 'Pikachu';
-
-        $objPokemonTorterra = $pokemonRepository->findOneBy(['name' => 'Torterra']); //< Retourne null si aucun résultat n'est trouvé
-
-        $objPokemonNb53     = $pokemonRepository->findOneBy(['number' => 53]);       //< SELECT * from pokemons where pkm_number = 53
-
-        $objPkmNbrMystherbe  = $pokemonRepository->findOneByName('Mystherbe');
-        $objPkmNameMystherbe = $pokemonRepository->findOneByNumber(43);
-
-        */
-
-        $objPkmTypeFeu      = $pokemonTypeRepository->findOneByName('Feu'); //< Type Feu dans la tables des types
+        return $this->render('pokemon/index.html.twig', ['pagination' => $pagination]);
 
         /*
+        $intPage = $request->query->get('page', 1);
 
-        dd($arrPokemonsAll, $objPokemonId1, $objPokemonPikachu, 
-            $objPokemonTorterra, $objPokemonNb53, 
-            $objPkmNbrMystherbe, $objPkmNameMystherbe); //< var_dump(..); die;
-        
-        */
+        $arrPokemon = $pokemonRepository->findPagination(4, $intPage);
 
-        $objPokemonsFeu = $pokemonRepository->findByType('Feu'); //< Récupérer tous les pokémons de type feu
-
-        $arrPokemonsFilter = $pokemonRepository->findByTypes(['Eau', 'Feu']);
-
-        // dd($objPkmTypeFeu->getPokemons(), $objPokemonsFeu); //< Le tableau parait vide, car Symfony optimise les requêtes - LAZY ou EAGER
-
-        dd($arrPokemonsFilter);
+        dd($arrPokemon);
 
         return $this->render('pokemon/index.html.twig', [
             'pokemonList'   => $arrPokemon,
             'currentPage'   => $intPage,
         ]);
+        */
     }
 
     #[Route('/create', name: 'create')]
