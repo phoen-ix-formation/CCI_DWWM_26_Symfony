@@ -219,6 +219,7 @@ final class AppStory extends Story
             ['number' => 148, 'name' => "Draco",        'types' => [$objTypeDragon]],
             ['number' => 149, 'name' => "Dracolosse",   'types' => [$objTypeDragon, $objTypeVol]],
             ['number' => 150, 'name' => "Mewtwo",       'types' => [$objTypePsy]],
+            ['number' => 151, 'name' => "Mew",          'types' => [$objTypePsy]],
         ]);
     }
 }

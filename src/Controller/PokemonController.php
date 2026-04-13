@@ -21,8 +21,11 @@ final class PokemonController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(PokemonRepository $pokemonRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        // Récupère la chaine dans l'URL pour la recherche par nom
+        $strSearchName = $request->query->getString('search_name');
+
         // On utilise le repository pour construire la requête qui sera envoyée au paginator
-        $query = $pokemonRepository->createPaginationQuery();
+        $query = $pokemonRepository->createPaginationQuery($strSearchName);
 
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
@@ -30,7 +33,10 @@ final class PokemonController extends AbstractController
             $request->query->getInt('perPage', 4) /* limit per page */
         );
 
-        return $this->render('pokemon/index.html.twig', ['pagination' => $pagination]);
+        return $this->render('pokemon/index.html.twig', [
+            'pagination'    => $pagination,
+            'searchName'    => $strSearchName //< Renvoi à la vue pour l'afficher dans le champ
+        ]);
 
         /*
         $intPage = $request->query->get('page', 1);

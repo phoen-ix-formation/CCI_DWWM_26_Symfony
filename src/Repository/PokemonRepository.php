@@ -62,10 +62,17 @@ class PokemonRepository extends ServiceEntityRepository
     /**
      * Construire le QueryBuilder qui sera utilisé pour la pagination
      */
-    public function createPaginationQuery(): QueryBuilder
+    public function createPaginationQuery(?string $name = null): QueryBuilder
     {
-        return $this->createQueryBuilder('p')
+        $queryBuilder = $this->createQueryBuilder('p')
             ->orderBy('p.number', 'ASC');
+
+        if($name) {
+            $queryBuilder->where('p.name LIKE :name')
+                ->setParameter('name', '%' . $name . '%');
+        }
+
+        return $queryBuilder;
     }
 
     public function findPagination(int $number, int $page = 1): array

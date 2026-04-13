@@ -8,19 +8,29 @@
 
 {% block body %}
 
-    <div class="count">
-        {{ pagination.getTotalItemCount }}
+    <form method="GET">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" 
+                placeholder="Rechercher par nom..." aria-label="Rechercher par nom..." 
+                name="search_name" id="search_name" value="{{ searchName }}">
+
+            <button class="btn btn-outline-secondary" type="button" id="button-addon1"><i class="bi bi-search"></i></button>
+        </div>
+    </form>
+
+    <div class="count mb-2">
+        {{ pagination.getTotalItemCount }} Pokémon(s) trouvés !
     </div>
     
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}
     </div>
 
-    <div class="row mt-2">
+    <div class="row mt-2 g-2">
     {% for pokemon in pagination %}
 
         <twig:BootstrapCard 
-            class="col-3"
+            class="col-2"
             title="{{ pokemon.name }}"
             img="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{ pokemon.number }}.png"
         >
