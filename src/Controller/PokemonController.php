@@ -53,9 +53,13 @@ final class PokemonController extends AbstractController
         
         */
 
-        $objPokemonsFeu = $pokemonRepository->findByTypes($objPkmTypeFeu); //< Récupérer tous les pokémons de type feu
+        $objPokemonsFeu = $pokemonRepository->findByType('Feu'); //< Récupérer tous les pokémons de type feu
 
-        dd($objPkmTypeFeu->getPokemons(), $objPokemonsFeu); //< Le tableau parait vide, car Symfony optimise les requêtes - LAZY ou EAGER
+        $arrPokemonsFilter = $pokemonRepository->findByTypes(['Eau', 'Feu']);
+
+        // dd($objPkmTypeFeu->getPokemons(), $objPokemonsFeu); //< Le tableau parait vide, car Symfony optimise les requêtes - LAZY ou EAGER
+
+        dd($arrPokemonsFilter);
 
         return $this->render('pokemon/index.html.twig', [
             'pokemonList'   => $arrPokemon,

@@ -18,7 +18,7 @@ class PokemonRepository extends ServiceEntityRepository
         parent::__construct($registry, Pokemon::class);
     }
 
-    public function findByTypes(PokemonType $type): array
+    public function findByType(string $type, ?string $secondary = null): array
     {        
         // Création du QueryBuilder, SELECT * FROM pokemons as p...
         $queryBuilder = $this->createQueryBuilder('p')
@@ -26,9 +26,27 @@ class PokemonRepository extends ServiceEntityRepository
 
         $queryBuilder
             ->join('p.types', 't')          //< On a un association, créer la jointure
-            ->where('t = :type')            //< On utilise l'alias t dans le filtre
+            ->where('t.name = :type')            //< On utilise l'alias t dans le filtre
             ->setParameter('type', $type);
 
+        // Retourne les résultats
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function findByTypes(array $types): array
+    {
+        // Création du QueryBuilder, SELECT * FROM pokemons as p...
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->orderBy('p.number', 'ASC');
+
+        $queryBuilder->join('p.types', 't');
+
+        for($i = 0; $i < count($types); $i++) {
+            
+            $queryBuilder->orWhere('t.name = :type_' . $i)
+                ->setParameter('type_' . $i, $types[$i]);
+        }
+        
         // Retourne les résultats
         return $queryBuilder->getQuery()->getResult();
     }
