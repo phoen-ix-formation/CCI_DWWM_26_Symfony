@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Picture;
 use App\Form\PictureCreateFormType;
+use App\Repository\PictureRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,13 +18,14 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PictureController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(): Response
+    public function index(PictureRepository $pictureRepository): Response
     {
+        $arrPictures = $pictureRepository->findAll();
+
         return $this->render('picture/index.html.twig', [
-            'controller_name' => 'PictureController',
+            'pictures'  => $arrPictures    
         ]);
     }
-
     
     #[Route('/create', name: 'create')]
     public function create(Request $request, EntityManagerInterface $entityManager,

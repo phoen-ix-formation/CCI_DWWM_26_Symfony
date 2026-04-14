@@ -3,18 +3,30 @@
 {% block title %}Hello PictureController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<h1>Liste des photos enregistrées</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/Karhe/Documents/Workspace/DWWM_2026-Symfony/pokedwwm_webapp/src/Controller/PictureController.php</code></li>
-        <li>Your template at <code>C:/Users/Karhe/Documents/Workspace/DWWM_2026-Symfony/pokedwwm_webapp/templates/picture/index.html.twig</code></li>
-    </ul>
+<div class="row gap-2">
+
+    {% for picture in pictures %}
+    
+        <div class="card col-2">
+            <img src="{{ asset('uploads/pictures/' ~ picture.filename) }}" class="card-img-top" alt="">
+            <div class="card-body">
+                <figure>
+                    <blockquote class="blockquote">
+                        <p>Nom du Pokémon</p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer">
+                        Prise par...
+                        <cite title="Source Title">le...</cite>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+
+    {% endfor %}
+
 </div>
+
 {% endblock %}
