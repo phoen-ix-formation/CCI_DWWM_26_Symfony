@@ -24,6 +24,10 @@ class Picture
     #[ORM\JoinColumn(name: 'pct_taken_by', referencedColumnName: 'usr_id', nullable: false)]
     private ?User $takenBy = null;
 
+    #[ORM\ManyToOne(targetEntity: Pokemon::class, inversedBy: 'pictures')]
+    #[ORM\JoinColumn(name: 'pct_pkm_id', referencedColumnName: 'pkm_id', nullable: true)]
+    private ?Pokemon $pokemon = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +65,18 @@ class Picture
     public function setTakenBy(?User $takenBy): static
     {
         $this->takenBy = $takenBy;
+
+        return $this;
+    }
+
+    public function getPokemon(): ?Pokemon
+    {
+        return $this->pokemon;
+    }
+
+    public function setPokemon(?Pokemon $pokemon): static
+    {
+        $this->pokemon = $pokemon;
 
         return $this;
     }

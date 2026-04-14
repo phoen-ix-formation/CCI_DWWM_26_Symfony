@@ -20,8 +20,9 @@
                         <p>Nom du Pokémon</p>
                     </blockquote>
                     <figcaption class="blockquote-footer">
-                        Prise par...
-                        <cite title="Source Title">le...</cite>
+                        {# Récupérer l'initial du nom : lastname|slice(0, 1) ou lastname|first #}
+                        Prise par {{ picture.takenBy.firstname }} {{ picture.takenBy.lastname|first|upper }}.,
+                        <cite title="Source Title">le {{ picture.createdAt|date('d/m/Y') }}</cite>
                     </figcaption>
                 </figure>
             </div>
