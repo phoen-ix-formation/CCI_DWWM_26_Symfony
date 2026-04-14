@@ -10,12 +10,14 @@ use App\Repository\PictureRepository;
 use App\Service\FileUploader;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsCsrfTokenValid;
 
 #[Route('/picture', name: 'app_picture_')]
 final class PictureController extends AbstractController
@@ -139,5 +141,33 @@ final class PictureController extends AbstractController
             'form'      => $formUpdate,
             'title'     => "Modifier une photo"
         ]);
+    }
+
+    #[Route('/{id<\d+>}/delete', name: 'delete', methods: ['POST'])] //< URL : /picture/1/delete
+    #[IsCsrfTokenValid('delete-picture', '_csrf_token')] //< 1: nom du token, 2: nom de l'input
+    public function delete(Picture $picture, EntityManagerInterface $entityManager, 
+        Request $request, LoggerInterface $logger, FileUploader $fileUploader): Response
+    {
+        try {
+            // DELETE .... FROM .... WHERE...
+            $entityManager->remove($picture);
+
+            // On utilise le FileUploader pour supprimer le fichier et pas uniquement l'entrée dans la BDD
+            $fileUploader->remove($picture->getFilename());
+
+            $entityManager->flush();
+
+            // Lorsque la suppresion est faite, on retourne à la liste
+            $this->addFlash('success', "La photo a été supprimée");
+        }
+        catch(Exception $exc) {
+            
+            $this->addFlash('danger', "Une erreur est survenue. Réessayez");
+
+            // On écrit dans le fichier de log le détail de l'erreur
+            $logger->error($exc->getMessage());
+        }
+
+        return $this->redirectToRoute('app_picture_index');
     }
 }

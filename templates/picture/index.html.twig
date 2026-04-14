@@ -29,6 +29,15 @@
                 <twig:BootstrapButton class="d-inline-block"
                     text="Modifier"
                     type="warning" link="{{ path('app_picture_update', { id: picture.id }) }}" />
+
+                <form action="{{ path('app_picture_delete', { id: picture.id }) }}" 
+                    method="POST" onsubmit="return confirm('Êtes-vous sûr?');">
+                
+                    <input type="hidden" name="_csrf_token" data-controller="csrf-protection" 
+                        value="{{ csrf_token('delete-picture') }}">
+
+                    <button class="btn btn-danger" type="submit">Supprimer</button>
+                </form>
             </div>
         </div>
 

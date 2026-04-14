@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -11,7 +12,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class FileUploader
 {
     public function __construct(
-        private string $pictureDirectory        //< Injection de dépendance par Symfony, à partir du fichier config/services.yaml
+        private string $pictureDirectory,        //< Injection de dépendance par Symfony, à partir du fichier config/services.yaml
+        private Filesystem $fileSystem,
     )
     {
         
@@ -32,5 +34,14 @@ class FileUploader
         $file->move($this->pictureDirectory, $strNewFilename);
 
         return $strNewFilename; //< Renvoi le nouveau nom du fichier
+    }
+
+    /**
+     * Suppprimer le fichier sur le disque
+     */
+    public function remove(string $filename): void
+    {
+        // remove va supprimer physiquement le fichier sur le disque à un emplacement indiqué
+        $this->fileSystem->remove($this->pictureDirectory . '/' . $filename);
     }
 }
