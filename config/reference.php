@@ -1643,6 +1643,12 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         post_processors?: array<string, array<string, mixed>>,
  *     },
  * }
+ * @psalm-type UxMapConfig = array{
+ *     renderer?: scalar|Param|null, // Default: null
+ *     google_maps?: array{
+ *         default_map_id?: scalar|Param|null, // Default: null
+ *     },
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1661,6 +1667,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     symfonycasts_reset_password?: SymfonycastsResetPasswordConfig,
  *     knp_paginator?: KnpPaginatorConfig,
  *     liip_imagine?: LiipImagineConfig,
+ *     ux_map?: UxMapConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1683,6 +1690,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         zenstruck_foundry?: ZenstruckFoundryConfig,
  *         knp_paginator?: KnpPaginatorConfig,
  *         liip_imagine?: LiipImagineConfig,
+ *         ux_map?: UxMapConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1702,6 +1710,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         symfonycasts_reset_password?: SymfonycastsResetPasswordConfig,
  *         knp_paginator?: KnpPaginatorConfig,
  *         liip_imagine?: LiipImagineConfig,
+ *         ux_map?: UxMapConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1723,6 +1732,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         zenstruck_foundry?: ZenstruckFoundryConfig,
  *         knp_paginator?: KnpPaginatorConfig,
  *         liip_imagine?: LiipImagineConfig,
+ *         ux_map?: UxMapConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,
