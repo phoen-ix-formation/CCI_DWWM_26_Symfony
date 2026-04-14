@@ -6,7 +6,9 @@
 
 <h1>Liste des photos enregistrées</h1>
 
-<div class="row gap-2">
+<a href="{{ path('app_picture_create') }}" class="btn btn-danger">Envoyer une photo</a>
+
+<div class="row gap-2 mt-5">
 
     {% for picture in pictures %}
     

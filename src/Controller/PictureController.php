@@ -42,11 +42,19 @@ final class PictureController extends AbstractController
             /** @var UploadedFile $objUploadedFile */
             $objUploadedFile = $formCreate->get('filename')->getData();
 
+            // Création d'un nom unique pour l'image (le fichier final)
+
+            // On récupère le nom du fichier sans l'extension (.png, .jpg...)
+            $strBasefileName = pathinfo($objUploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+
+            // On accolle uniqid pour rendre unique le nom + l'extension du fichier (PNG, JPG...)
+            $strNewFilename = $strBasefileName . uniqid() . '.' . $objUploadedFile->guessExtension();
+
             // Déplace le fichier dans le répertoire /public/uploads/pictures
-            $objUploadedFile->move($pictureDirectory, $objUploadedFile->getClientOriginalName());
+            $objUploadedFile->move($pictureDirectory, $strNewFilename);
 
             // Définit les attributs de l'entité Picture
-            $objPicture->setFilename($objUploadedFile->getClientOriginalName())
+            $objPicture->setFilename($strNewFilename)
                 ->setCreatedAt(new DateTimeImmutable('now'))
                 ->setTakenBy($this->getUser()); //< $this->getUser() : récupère l'utlisateur connecté à l'application
 
