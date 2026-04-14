@@ -10,6 +10,7 @@ use App\Repository\PokemonTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -123,7 +124,7 @@ final class PokemonController extends AbstractController
     #[IsGranted('ROLE_USER')] //< Bloque la route, si pas le rôle ROLE_USER
     #[IsGranted('POKEMON_DELETE', subject: 'pokemon', message: "Droit insuffisant pour la suppression")]
     #[IsCsrfTokenValid('delete-pokemon', '_csrf_token')] //< 1: nom du token, 2: nom de l'input
-    public function delete(Pokemon $pokemon, EntityManagerInterface $entityManager, Request $request): Response
+    public function delete(Pokemon $pokemon, EntityManagerInterface $entityManager, Request $request, LoggerInterface $logger): Response
     {
         try {
             // DELETE .... FROM .... WHERE...
@@ -136,6 +137,9 @@ final class PokemonController extends AbstractController
         catch(Exception $exc) {
             
             $this->addFlash('danger', "Une erreur est survenue. Réessayez");
+
+            // On écrit dans le fichier de log le détail de l'erreur
+            $logger->error($exc->getMessage());
         }
 
         return $this->redirectToRoute('app_pokemon_index');

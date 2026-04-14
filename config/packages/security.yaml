@@ -40,6 +40,9 @@ security:
         - { path: ^/type, roles: ROLE_PROF }
         # - { path: ^/pokemon, roles: ROLE_USER } # Pas possible pour notre cas = sinon /pokemon est accessible à personne
 
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER, ROLE_MODERATOR] # Hiérarchie des rôles / Héritage au niveau des rôles
+
 when@test:
     security:
         password_hashers:
