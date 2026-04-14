@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Picture;
 use App\Form\PictureCreateFormType;
+use App\Form\PictureUpdateFormType;
 use App\Repository\PictureRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -66,8 +67,31 @@ final class PictureController extends AbstractController
             return $this->redirectToRoute('app_picture_index');
         }
 
-        return $this->render('picture/create.html.twig', [
-            'formCreate'    => $formCreate
+        return $this->render('picture/form.html.twig', [
+            'form'      => $formCreate,
+            'title'     => 'Déposer une nouvelle photo'
+        ]);
+    }
+
+    #[Route('/{id<\d+>}/update', name: 'update')]
+    public function update(Picture $picture, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $formUpdate = $this->createForm(PictureUpdateFormType::class, $picture);
+
+        $formUpdate->handleRequest($request);
+
+        if($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+
+            $entityManager->flush();
+
+            $this->addFlash('success', "La photo a bien été modifiée");
+
+            return $this->redirectToRoute('app_picture_index');
+        }
+
+        return $this->render('picture/form.html.twig', [
+            'form'      => $formUpdate,
+            'title'     => "Modifier une photo"
         ]);
     }
 }

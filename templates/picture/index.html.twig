@@ -17,7 +17,7 @@
             <div class="card-body">
                 <figure>
                     <blockquote class="blockquote">
-                        <p>Nom du Pokémon</p>
+                        <p>{% if picture.pokemon %}{{ picture.pokemon.name }}{% else %}(Pas de pokémon associé){% endif %}</p>
                     </blockquote>
                     <figcaption class="blockquote-footer">
                         {# Récupérer l'initial du nom : lastname|slice(0, 1) ou lastname|first #}
@@ -25,6 +25,10 @@
                         <cite title="Source Title">le {{ picture.createdAt|date('d/m/Y') }}</cite>
                     </figcaption>
                 </figure>
+
+                <twig:BootstrapButton class="d-inline-block"
+                    text="Modifier"
+                    type="warning" link="{{ path('app_picture_update', { id: picture.id }) }}" />
             </div>
         </div>
 
