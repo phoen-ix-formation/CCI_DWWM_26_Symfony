@@ -7,6 +7,7 @@ use App\Entity\Pokemon;
 use App\Form\PictureCreateFormType;
 use App\Form\PictureUpdateFormType;
 use App\Repository\PictureRepository;
+use App\Service\FileUploader;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,8 +31,8 @@ final class PictureController extends AbstractController
     }
     
     #[Route('/create', name: 'create')]
-    public function create(Request $request, EntityManagerInterface $entityManager,
-        #[Autowire('%kernel.project_dir%/public/uploads/pictures')] string $pictureDirectory): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, 
+        FileUploader $fileUploader): Response
     {
         $objPicture = new Picture();
 
@@ -45,7 +46,7 @@ final class PictureController extends AbstractController
             $objUploadedFile = $formCreate->get('filename')->getData();
 
             // Création d'un nom unique pour l'image (le fichier final)
-
+            /*
             // On récupère le nom du fichier sans l'extension (.png, .jpg...)
             $strBasefileName = pathinfo($objUploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
 
@@ -54,6 +55,10 @@ final class PictureController extends AbstractController
 
             // Déplace le fichier dans le répertoire /public/uploads/pictures
             $objUploadedFile->move($pictureDirectory, $strNewFilename);
+            */
+
+            // On utilise le service plutôt que de faire les opérations dans le contrôleur
+            $strNewFilename = $fileUploader->upload($objUploadedFile);
 
             // Définit les attributs de l'entité Picture
             $objPicture->setFilename($strNewFilename)
@@ -76,8 +81,7 @@ final class PictureController extends AbstractController
 
     #[Route('/create/pokemon/{id<\d+>}', name: 'create_pokemon')] //< /picture/create/pokemon/51
     public function createForPokemon(Pokemon $pokemon, Request $request, 
-        EntityManagerInterface $entityManager,
-        #[Autowire('%kernel.project_dir%/public/uploads/pictures')] string $pictureDirectory): Response
+        EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $objPicture = new Picture();
 
@@ -92,17 +96,9 @@ final class PictureController extends AbstractController
 
             /** @var UploadedFile $objUploadedFile */
             $objUploadedFile = $formCreate->get('filename')->getData();
-
-            // Création d'un nom unique pour l'image (le fichier final)
-
-            // On récupère le nom du fichier sans l'extension (.png, .jpg...)
-            $strBasefileName = pathinfo($objUploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-
-            // On accolle uniqid pour rendre unique le nom + l'extension du fichier (PNG, JPG...)
-            $strNewFilename = $strBasefileName . uniqid() . '.' . $objUploadedFile->guessExtension();
-
-            // Déplace le fichier dans le répertoire /public/uploads/pictures
-            $objUploadedFile->move($pictureDirectory, $strNewFilename);
+            
+            // On utilise le service plutôt que de faire les opérations dans le contrôleur
+            $strNewFilename = $fileUploader->upload($objUploadedFile);
 
             // Définit les attributs de l'entité Picture
             $objPicture->setFilename($strNewFilename)
