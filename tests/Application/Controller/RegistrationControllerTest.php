@@ -2,6 +2,7 @@
 
 namespace App\Tests\Application\Controller;
 
+use App\Factory\UserFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Foundry\Attribute\ResetDatabase;
 
@@ -62,6 +63,24 @@ class RegistrationControllerTest extends WebTestCase
 
         // On complète le formulaire avec une adresse email déjà utilisée
         // => créer au préalable un user dans la base
+        $objExtistingUser = UserFactory::createOne();
+
+        // On utilise l'email de l'utilisateur créé par la Factory
+        $client->submitForm("S'inscrire", [
+            'registration_form[email]'                  => $objExtistingUser->getEmail(),
+            'registration_form[lastname]'               => "Doe",
+            'registration_form[firstname]'              => "John",
+            'registration_form[birthdate]'              => "2000-04-05",
+            'registration_form[plainPassword][first]'   => "M?sth3erbe!!yyyyyyyyy",
+            'registration_form[plainPassword][second]'  => "M?sth3erbe!!yyyyyyyyy",
+            'registration_form[agreeTerms]'             => true,
+        ]);
+
+        $this->assertResponseStatusCodeSame(422); //< Code 422 que l'on voit dans le Profiler lors d'un essai en web
+
+        $this->assertAnySelectorTextContains('div', "There is already an account with this email");
+
+        $this->assertEmailCount(0);
     }
 
     public function testRegisterWithMismatchPassword(): void
@@ -72,6 +91,22 @@ class RegistrationControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
 
         // On complète le formulaire avec des mots de passe différents
+        // On utilise l'email de l'utilisateur créé par la Factory
+        $client->submitForm("S'inscrire", [
+            'registration_form[email]'                  => "john.doe@email.com",
+            'registration_form[lastname]'               => "Doe",
+            'registration_form[firstname]'              => "John",
+            'registration_form[birthdate]'              => "2000-04-05",
+            'registration_form[plainPassword][first]'   => "M?sth3erbe!!yyyyyyyyy",
+            'registration_form[plainPassword][second]'  => "M?sth3erbe!!zzzzzzzzz",
+            'registration_form[agreeTerms]'             => true,
+        ]);
+
+        $this->assertResponseStatusCodeSame(422); //< Code 422 que l'on voit dans le Profiler lors d'un essai en web
+
+        $this->assertAnySelectorTextContains('div', "Les champs doivent être identiques");
+
+        $this->assertEmailCount(0);
     }
 
     public function testRegisterWithoutAgreeTerms(): void
@@ -82,5 +117,20 @@ class RegistrationControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
 
         // On complète le formulaire en ne cochant pas la case "Agree terms"
+        $client->submitForm("S'inscrire", [
+            'registration_form[email]'                  => "john.doe@email.com",
+            'registration_form[lastname]'               => "Doe",
+            'registration_form[firstname]'              => "John",
+            'registration_form[birthdate]'              => "2000-04-05",
+            'registration_form[plainPassword][first]'   => "M?sth3erbe!!yyyyyyyyy",
+            'registration_form[plainPassword][second]'  => "M?sth3erbe!!yyyyyyyyy",
+            'registration_form[agreeTerms]'             => false,
+        ]);
+
+        $this->assertResponseStatusCodeSame(422);
+
+        $this->assertAnySelectorTextContains('div', "Vous devez accepter les conditions");
+
+        $this->assertEmailCount(0);
     }
 }
