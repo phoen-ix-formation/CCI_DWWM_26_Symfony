@@ -25,16 +25,15 @@ class PokemonCreateFormType extends AbstractType
                 'label'     => 'Numéro du Pokédex nationnal',
                 'required'  => false,
             ])
-            /*
+            
             ->add('types', EntityType::class, [
                 'label'         => "Type(s)",
                 'class'         => PokemonType::class,  //< Classe utilisée pour les choix
                 'choice_label'  => 'name',              //< Attribut de l'objet utilisé pour le texte de l'option
                 'multiple'      => true,                //< Autorise la sélection multiple
             ])
-            */
-            
-            ->add('types', PokemonTypeAutocompleteField::class)
+                        
+            //->add('types', PokemonTypeAutocompleteField::class)
 
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer'
