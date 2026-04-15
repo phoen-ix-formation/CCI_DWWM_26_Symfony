@@ -68,14 +68,25 @@ class PokemonRepository extends ServiceEntityRepository
             ->orderBy('p.number', 'ASC');
 
         if($name) {
+            // Découper la chaine en mots s'il y a des espaces...
+
+            // Pour chaque mot, faire la requête/adapter la requête...
+
+            
             // Utilisation de LOWER pour rendre la requête insensible à la case (et ça marche chez Kévin !)
             $queryBuilder->where('LOWER(p.name) LIKE LOWER(:name)')
                 ->setParameter('name', '%' . $name . '%');
+
+            // Ou en fonction du type de pokémon
+            $queryBuilder->join('p.types', 't')          //< On a un association, créer la jointure
+                ->orWhere('LOWER(t.name) = LOWER(:type)')              //< On utilise l'alias t dans le filtre
+                ->setParameter('type', $name);
         }
 
         return $queryBuilder;
     }
 
+    /*
     public function findPagination(int $number, int $page = 1): array
     {
         // Création du QueryBuilder, SELECT * FROM pokemons as p...
@@ -98,4 +109,5 @@ class PokemonRepository extends ServiceEntityRepository
             'items' => $paginator
         ];
     }
+    */
 }
