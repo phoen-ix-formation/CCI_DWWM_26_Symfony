@@ -82,8 +82,13 @@ class PokemonRepository extends ServiceEntityRepository
 
             for($i = 0; $i < count($arrSearchSegments); $i++) {
 
-                $queryBuilder->andWhere("LOWER(p.name) LIKE LOWER(:value_$i) OR LOWER(t.name) LIKE LOWER(:value_$i)")
-                    ->setParameter("value_$i", '%' . $arrSearchSegments[$i] . '%');
+                // On gère le cas où on écrit deux espaces à la suite dans la recherche
+                if(trim($arrSearchSegments[$i]) != '') {
+
+                    $queryBuilder->andWhere("LOWER(p.name) LIKE LOWER(:value_$i) OR LOWER(t.name) LIKE LOWER(:value_$i)")
+                        ->setParameter("value_$i", '%' . $arrSearchSegments[$i] . '%');
+
+                }
             }
 
             // ->orWhere('.... AND ....')

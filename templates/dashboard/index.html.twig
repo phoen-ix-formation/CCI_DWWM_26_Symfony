@@ -4,6 +4,14 @@
 
 {% block body %}
 
+<h1>Tableau de bord</h1>
+
+{% if app.user %}
+    <p>Bienvenue {{ app.user.firstname }}, sur le Pokédex<p>
+{% else %}
+    <p>Bienvenue sur le Pokédex</p>
+{% endif %}
+
 {{ dump(app.current_route) }}
 
 {% endblock %}
