@@ -39,6 +39,8 @@ final class UserFactory extends PersistentObjectFactory
     #[\Override]
     protected function defaults(): array|callable
     {
+        $dteRegistredAt = self::faker()->dateTime();
+
         return [
             'email'         => self::faker()->email(),
             'firstname'     => self::faker()->firstName(),
@@ -46,7 +48,10 @@ final class UserFactory extends PersistentObjectFactory
             'password'      => $this->userPasswordHasher->hashPassword(new User(), self::DEFAULT_PASSWORD),
             'isVerified'    => self::faker()->boolean(),
             'birthdate'     => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
-            'registeredAt'  => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
+
+            'registeredAt'  => \DateTimeImmutable::createFromMutable($dteRegistredAt),
+            //'updatedAt'     => \DateTimeImmutable::createFromMutable(self::faker()->dateTimeBetween($dteRegistredAt, '+1 year')),
+            
             'roles'         => [],
         ];
     }
