@@ -70,9 +70,25 @@ class PokemonRepository extends ServiceEntityRepository
         if($name) {
             // Découper la chaine en mots s'il y a des espaces...
 
-            // Pour chaque mot, faire la requête/adapter la requête...
+            $arrSearchSegments = explode(' ', $name);   // Pour $name = "Plante bulbi" => $arrSearchSegments = ['Plante', 'bulbi']
+                                                        //< Résultat serait uniquement Bulbizarre
 
-            
+            // SQL ? => SELECT * FROM pokemons INNER JOIN pokemon_types ON .... 
+            // WHERE pkm_name LIKE '%Plante%' OR pkt_name LIKE '%Plante%'
+            //   AND pkm_name LIKE '%bulbi%' OR pkt_name LIKE '%bulbi%'
+
+            // Pour chaque mot, faire la requête/adapter la requête...
+            $queryBuilder->join('p.types', 't');
+
+            for($i = 0; $i < count($arrSearchSegments); $i++) {
+
+                $queryBuilder->andWhere("LOWER(p.name) LIKE LOWER(:value_$i) OR LOWER(t.name) LIKE LOWER(:value_$i)")
+                    ->setParameter("value_$i", '%' . $arrSearchSegments[$i] . '%');
+            }
+
+            // ->orWhere('.... AND ....')
+            // ->andWhere('.... OR ....')
+            /*
             // Utilisation de LOWER pour rendre la requête insensible à la case (et ça marche chez Kévin !)
             $queryBuilder->where('LOWER(p.name) LIKE LOWER(:name)')
                 ->setParameter('name', '%' . $name . '%');
@@ -81,6 +97,7 @@ class PokemonRepository extends ServiceEntityRepository
             $queryBuilder->join('p.types', 't')          //< On a un association, créer la jointure
                 ->orWhere('LOWER(t.name) = LOWER(:type)')              //< On utilise l'alias t dans le filtre
                 ->setParameter('type', $name);
+            */
         }
 
         return $queryBuilder;
